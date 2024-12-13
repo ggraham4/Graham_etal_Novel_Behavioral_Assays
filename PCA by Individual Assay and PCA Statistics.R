@@ -146,8 +146,8 @@ pca_r2.2 <- function(pca, data, by){
 }
 
 {
-  data <- read_excel("Assays Data/Assays Data.xlsx", na = "NA")
-data <- subset(data,Sex != "G" & (Rater == "GG"| Rater == "EP" | Rater == "IW")& 
+ data <- read.csv("Assays Data.csv", na = "NA")
+  data <- subset(data,Sex != "G" & (Rater == "GG"| Rater == "EP" | Rater == "IW")& 
                  Tank != "T12"& 
                  Tank != "B11" &
                  Tank != "B21"& 

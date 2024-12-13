@@ -75,8 +75,8 @@ repeatability_function <- function(model){
   #individual variance/individual variance + what the sum of the mean square error
   repeatability <- individual_variance / (individual_variance + residual_variance)
 
-  cat("\n REPEATABILITY:", repeatability,"\n")
-  return(ranova(model))
+  #cat("\n REPEATABILITY:", repeatability,"\n")
+  return(repeatability)
 }
 
 #Define function to output ICC, skewness, random effect p value, kurtosis
@@ -121,7 +121,8 @@ parenting.list <- c('sum.parenting.lmer', 'nip.parenting.lmer', 'pec.parenting.l
 for(i in parenting.list){
   m <- get(i)
   cat('\n',i, '\n')
-  e
+  ez(m)
+}
 
 ######## Crab ########
 
@@ -299,4 +300,3 @@ for(i in rock.list){
   cat('\n',i, '\n')
   ez(m)
 }
-

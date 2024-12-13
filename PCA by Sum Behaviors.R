@@ -46,8 +46,8 @@ print(distance)
 
 #Load data
 {
-data <- read_excel("Assays Data/Assays Data.xlsx", na = "NA")
-data$Latency <- ifelse(data$Latency == "Nan", data$Latency == data$Time.For.Assay.minutes*60, data$Latency)
+ data <- read.csv("Assays Data.csv", na = "NA")
+  data$Latency <- ifelse(data$Latency == "Nan", data$Latency == data$Time.For.Assay.minutes*60, data$Latency)
 data <- subset(data,Sex != "G" & (Rater == "GG"| Rater == "EP" | Rater == "IW")&  #Exclude unrated videos
                  Tank != "T12"& 
                  Tank != "B11" &

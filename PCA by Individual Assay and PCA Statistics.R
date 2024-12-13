@@ -21,34 +21,6 @@
 library(factoextra)
 library(ggrepel)
 
-pairwisefunction <- function(model, data, term) {
-  # Ensure 'data' and 'term' are correctly specified
-  if (!term %in% names(data)) {
-    stop("Specified term not found in the data.")
-  }
-  
-  # Clone the data to avoid modifying the original dataset
-  modified <- data
-  
-  # Convert the term to a factor if it's not already one
-  modified[[term]] <- as.factor(modified[[term]])
-  
-  # Get levels of the factor
-  levels_original <- levels(modified[[term]])
-  
-  # Identify the first level in alphabetical order
-  first_level <- sort(levels_original)[1]
-  
-  # Use fct_relevel to move the first level to the last position
-  modified[[term]] <- fct_relevel(modified[[term]], first_level, after = length(levels_original))
-  
-  # Refit the model with the updated data
-  updated_model <- update(model, data = modified)
-  
-  # Return the summary of the updated model
-  summary(updated_model)
-}
-
 #calculate euclidean distance using 2 dimensions
 pca_distance_2 <-function(pca, data, by){
 if (!inherits(pca, "princomp")) {

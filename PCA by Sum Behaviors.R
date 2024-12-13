@@ -16,9 +16,34 @@ library(factoextra)
 library(ggpubr)
   library(forcats)
   library(factoextra)
-  pca_distance_2 <- readRDS("R/pca_distance_2.rds")
 
 }
+
+pca_distance_2 <- function(pca, data, by){
+if (!inherits(pca, "princomp")) {
+    stop("The 'pca' argument must be a 'princomp' object.")
+}
+  library(dplyr)
+  
+  x <- pca
+  y <- data
+
+  
+ means <- data.frame(pca$scores, group = data[[by]])  
+ 
+  grouped.means <- means%>%
+  group_by(group)%>%
+    summarize(across(starts_with("Comp."), mean))
+
+ mean.1 <- grouped.means[1, 2:3]  
+  mean.2 <- grouped.means[2, 2:3]
+  
+distance <- dist(rbind(as.numeric(mean.1), as.numeric(mean.2)))
+
+print(distance)
+
+}
+
 #Load data
 {
 data <- read_excel("Assays Data/Assays Data.xlsx", na = "NA")
@@ -113,7 +138,7 @@ combined_data5 <- mean_all %>%
 }
 
 #Split by sex
-{
+
 comb.male <- subset(combined_data5, Sex == "M")
 comb.female <- subset(combined_data5, Sex == "F")
 mal <- comb.male[,5:11]
@@ -160,22 +185,6 @@ summary(model)
 
 library(ggrepel)
 
-#Plots
-male.pca <- fviz_pca_ind(pca_m, label = "none")+
-  theme_classic()+
-    geom_point(color = "blue")+
-  geom_text_repel(label = comb.male$Fish)+
-  labs(x = "PC_1" , y = "PC_2", title = "Males by Mean of Sum Behaviors")
-male.pca
-
-
-female.pca <- fviz_pca_ind(pca_f, label = "none")+
-  theme_classic()+
-  geom_point(color = "red")+
-  geom_text_repel(label = comb.female$Fish, hjust = 1.05)+
-  labs(x = "PC_1" , y = "PC_2", title = "Females by Mean of Sum Behaviors")
-female.pca
-
 tog.pca <-  fviz_pca_ind(pca_t, habillage = combined_data5$Sex, label = '', pointsize = 1.5, linetype = 3)+
   theme_classic()+
   geom_text_repel(label = combined_data5$arbitrary_id, aes(color = combined_data5$Sex), size =2.5, color = 'black', hjust = 0.2)+
@@ -211,20 +220,4 @@ fig4 <- ggarrange(tog.pca, tog.pca.var,
                           common.legend = TRUE, 
                           legend = 'bottom')
 fig4
-
-ggsave(plot = fig4,
-       file = "Fig4 .jpg",
-       device = "jpg",
-       units = "in",
-       width = 6.5,
-       height = 3.25,
-       path = "Plots/Fig 4",
-       limitsize = FALSE
-)
-
-
-
-
-
-
 

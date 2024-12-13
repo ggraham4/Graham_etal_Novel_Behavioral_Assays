@@ -14,8 +14,8 @@ library(lmerTest)
   library(readxl)
 
   {
-  data <- read_excel("Assays Data/Assays Data.xlsx", na = "NA")
-data <- subset(data,Sex != "G" & (Rater == "GG"| Rater == "EP" | Rater == "IW")& #Subset to all videos that have been rated
+ data <- read.csv("Assays Data.csv", na = "NA")
+    data <- subset(data,Sex != "G" & (Rater == "GG"| Rater == "EP" | Rater == "IW")& #Subset to all videos that have been rated
                  Tank != "T12"& 
                  Tank != "B11" &
                  Tank != "B21"& 
